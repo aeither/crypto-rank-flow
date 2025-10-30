@@ -125,66 +125,67 @@ export const CryptoTrajectories = () => {
           </div>
 
           {/* Chart */}
-          <div className="relative mb-16">
-            {/* Week labels */}
-            <div className="flex justify-between mb-8 px-4">
-              {weeks.map((week) => (
-                <div key={week} className="text-xl font-bold text-center w-40">
-                  {week}
-                </div>
-              ))}
-            </div>
+          <div className="relative mb-16 overflow-x-auto">
+            <div className="min-w-max">
+              {/* Week labels */}
+              <div className="flex gap-8 mb-8 px-4">
+                {weeks.map((week) => (
+                  <div key={week} className="text-xl font-bold text-center w-48">
+                    {week}
+                  </div>
+                ))}
+              </div>
 
+              {/* Crypto bars */}
+              <div className="flex gap-8 relative" style={{ zIndex: 1 }}>
+                {weeks.map((week, weekIndex) => (
+                  <div key={week} className="flex flex-col gap-2">
+                    {getCryptosAtWeek(weekIndex).map((crypto) => {
+                      const currentRank = crypto.rankings[weekIndex];
+                      const rankChange = getRankChange(crypto, weekIndex);
 
-            {/* Crypto bars */}
-            <div className="flex justify-between relative" style={{ zIndex: 1 }}>
-              {weeks.map((week, weekIndex) => (
-                <div key={week} className="flex flex-col gap-2">
-                  {getCryptosAtWeek(weekIndex).map((crypto) => {
-                    const currentRank = crypto.rankings[weekIndex];
-                    const rankChange = getRankChange(crypto, weekIndex);
-
-                    return (
-                      <div key={`${crypto.id}-${weekIndex}`} className="flex items-center gap-2">
-                        {/* Rank circle or change indicator */}
-                        <div className="w-8 flex-shrink-0 flex items-center justify-center">
-                          {weekIndex === 0 ? (
-                            <div className="w-5 h-5 rounded-full bg-background border-2 border-foreground flex items-center justify-center">
-                              <span className="text-xs font-bold">{currentRank}</span>
-                            </div>
-                          ) : (
-                            <span className={cn(
-                              "text-xs font-bold",
-                              rankChange === null ? "text-muted-foreground" :
-                              rankChange > 0 ? "text-green-400" : 
-                              rankChange < 0 ? "text-red-400" : 
-                              "text-muted-foreground"
-                            )}>
-                              {rankChange === null ? "–" : rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
-                            </span>
-                          )}
+                      return (
+                        <div key={`${crypto.id}-${weekIndex}`} className="flex items-center gap-2">
+                          {/* Rank circle or change indicator */}
+                          <div className="w-8 flex-shrink-0 flex items-center justify-center">
+                            {weekIndex === 0 ? (
+                              <div className="w-5 h-5 rounded-full bg-background border-2 border-foreground flex items-center justify-center">
+                                <span className="text-xs font-bold">{currentRank}</span>
+                              </div>
+                            ) : (
+                              <span className={cn(
+                                "text-xs font-bold",
+                                rankChange === null ? "text-muted-foreground" :
+                                rankChange > 0 ? "text-green-400" : 
+                                rankChange < 0 ? "text-red-400" : 
+                                "text-muted-foreground"
+                              )}>
+                                {rankChange === null ? "–" : rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
+                              </span>
+                            )}
+                          </div>
+                          
+                          <div className="w-40">
+                            <CryptoBar
+                              crypto={crypto}
+                              rank={currentRank}
+                              isHovered={hoveredCrypto === crypto.id}
+                              isDimmed={hoveredCrypto !== null && hoveredCrypto !== crypto.id}
+                              onHover={setHoveredCrypto}
+                              weekIndex={weekIndex}
+                              barRef={(el) => {
+                                if (el) {
+                                  barRefs.set(`${crypto.id}-${weekIndex}`, el);
+                                }
+                              }}
+                            />
+                          </div>
                         </div>
-                        
-                        <div className="w-40">
-                          <CryptoBar
-                            crypto={crypto}
-                            rank={currentRank}
-                            isHovered={hoveredCrypto === crypto.id}
-                            isDimmed={hoveredCrypto !== null && hoveredCrypto !== crypto.id}
-                            onHover={setHoveredCrypto}
-                            weekIndex={weekIndex}
-                            barRef={(el) => {
-                              if (el) {
-                                barRefs.set(`${crypto.id}-${weekIndex}`, el);
-                              }
-                            }}
-                          />
-                        </div>
-                      </div>
-                    );
-                  })}
-                </div>
-              ))}
+                      );
+                    })}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 

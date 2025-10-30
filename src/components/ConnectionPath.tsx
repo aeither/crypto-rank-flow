@@ -1,40 +1,41 @@
-import { CountryRanking } from "./EconomicTrajectories";
+import { CryptoRanking } from "./CryptoTrajectories";
 
 interface ConnectionPathProps {
-  country: CountryRanking;
-  fromYearIndex: number;
-  toYearIndex: number;
+  crypto: CryptoRanking;
+  fromWeekIndex: number;
+  toWeekIndex: number;
   isHovered: boolean;
   isDimmed: boolean;
   barRefs: Map<string, HTMLDivElement>;
 }
 
 const colorMap = {
-  us: "#3b82f6",
-  china: "#ef4444",
-  india: "#f59e0b",
-  europe: "#8b5cf6",
-  americas: "#10b981",
-  africa: "#eab308",
-  asia: "#ef4444",
+  bitcoin: "#f7931a",
+  ethereum: "#627eea",
+  stablecoin: "#26a17b",
+  bnb: "#f3ba2f",
+  xrp: "#23292f",
+  solana: "#9945ff",
+  altcoin: "#667eea",
+  meme: "#f59e0b",
 };
 
 export const ConnectionPath = ({
-  country,
-  fromYearIndex,
-  toYearIndex,
+  crypto,
+  fromWeekIndex,
+  toWeekIndex,
   isHovered,
   isDimmed,
   barRefs,
 }: ConnectionPathProps) => {
-  const fromRank = country.rankings[fromYearIndex];
-  const toRank = country.rankings[toYearIndex];
+  const fromRank = crypto.rankings[fromWeekIndex];
+  const toRank = crypto.rankings[toWeekIndex];
 
   if (fromRank === -1 || toRank === -1) return null;
 
   // Get actual DOM positions
-  const fromBar = barRefs.get(`${country.country}-${fromYearIndex}`);
-  const toBar = barRefs.get(`${country.country}-${toYearIndex}`);
+  const fromBar = barRefs.get(`${crypto.id}-${fromWeekIndex}`);
+  const toBar = barRefs.get(`${crypto.id}-${toWeekIndex}`);
 
   if (!fromBar || !toBar) return null;
 
@@ -52,7 +53,7 @@ export const ConnectionPath = ({
   const x2 = toRect.left - containerRect.left;
   const y2 = toRect.top + toRect.height / 2 - containerRect.top;
 
-  const color = colorMap[country.color as keyof typeof colorMap];
+  const color = colorMap[crypto.color as keyof typeof colorMap];
 
   return (
     <line

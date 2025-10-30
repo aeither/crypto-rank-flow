@@ -57,14 +57,15 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
-        country: {
-          us: "hsl(var(--country-us))",
-          china: "hsl(var(--country-china))",
-          india: "hsl(var(--country-india))",
-          europe: "hsl(var(--country-europe))",
-          americas: "hsl(var(--country-americas))",
-          africa: "hsl(var(--country-africa))",
-          asia: "hsl(var(--country-asia))",
+        crypto: {
+          bitcoin: "hsl(var(--crypto-bitcoin))",
+          ethereum: "hsl(var(--crypto-ethereum))",
+          stablecoin: "hsl(var(--crypto-stablecoin))",
+          bnb: "hsl(var(--crypto-bnb))",
+          xrp: "hsl(var(--crypto-xrp))",
+          solana: "hsl(var(--crypto-solana))",
+          altcoin: "hsl(var(--crypto-altcoin))",
+          meme: "hsl(var(--crypto-meme))",
         },
         decorative: {
           border: "hsl(var(--decorative-border))",

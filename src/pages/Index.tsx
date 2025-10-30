@@ -1,7 +1,7 @@
-import { EconomicTrajectories } from "@/components/EconomicTrajectories";
+import { CryptoTrajectories } from "@/components/CryptoTrajectories";
 
 const Index = () => {
-  return <EconomicTrajectories />;
+  return <CryptoTrajectories />;
 };
 
 export default Index;

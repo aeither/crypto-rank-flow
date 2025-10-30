@@ -1,52 +1,53 @@
-import { CountryRanking } from "./EconomicTrajectories";
+import { CryptoRanking } from "./CryptoTrajectories";
 import { cn } from "@/lib/utils";
 
-interface CountryBarProps {
-  country: CountryRanking;
+interface CryptoBarProps {
+  crypto: CryptoRanking;
   rank: number;
   isHovered: boolean;
   isDimmed: boolean;
-  onHover: (country: string | null) => void;
-  yearIndex: number;
+  onHover: (crypto: string | null) => void;
+  weekIndex: number;
   barRef: (el: HTMLDivElement | null) => void;
 }
 
 const colorMap = {
-  us: "bg-country-us",
-  china: "bg-country-china",
-  india: "bg-country-india",
-  europe: "bg-country-europe",
-  americas: "bg-country-americas",
-  africa: "bg-country-africa",
-  asia: "bg-country-asia",
+  bitcoin: "bg-crypto-bitcoin",
+  ethereum: "bg-crypto-ethereum",
+  stablecoin: "bg-crypto-stablecoin",
+  bnb: "bg-crypto-bnb",
+  xrp: "bg-crypto-xrp",
+  solana: "bg-crypto-solana",
+  altcoin: "bg-crypto-altcoin",
+  meme: "bg-crypto-meme",
 };
 
-export const CountryBar = ({
-  country,
+export const CryptoBar = ({
+  crypto,
   rank,
   isHovered,
   isDimmed,
   onHover,
-  yearIndex,
+  weekIndex,
   barRef,
-}: CountryBarProps) => {
+}: CryptoBarProps) => {
   return (
     <div
       ref={barRef}
       className={cn(
         "relative rounded-lg px-3 py-2.5 cursor-pointer transition-all duration-300",
-        colorMap[country.color as keyof typeof colorMap],
+        colorMap[crypto.color as keyof typeof colorMap],
         isHovered && "ring-4 ring-primary scale-105",
         isDimmed && "opacity-20",
         !isHovered && !isDimmed && "opacity-100 hover:opacity-90"
       )}
-      onMouseEnter={() => onHover(country.country)}
+      onMouseEnter={() => onHover(crypto.id)}
       onMouseLeave={() => onHover(null)}
     >
       <div className="flex items-center gap-2">
-        <span className="text-sm">{country.flag}</span>
+        <img src={crypto.image} alt={crypto.name} className="w-5 h-5 rounded-full" />
         <span className="text-sm font-semibold text-white">
-          {country.country}
+          {crypto.symbol}
         </span>
       </div>
     </div>

@@ -38,14 +38,15 @@ All colors MUST be HSL.
 
     --radius: 0.5rem;
 
-    /* Country colors */
-    --country-us: 210 100% 55%;
-    --country-china: 0 85% 60%;
-    --country-india: 25 85% 65%;
-    --country-europe: 260 50% 50%;
-    --country-americas: 150 60% 45%;
-    --country-africa: 45 85% 55%;
-    --country-asia: 0 75% 55%;
+    /* Crypto colors */
+    --crypto-bitcoin: 28 93% 54%;
+    --crypto-ethereum: 225 69% 65%;
+    --crypto-stablecoin: 163 63% 42%;
+    --crypto-bnb: 45 89% 57%;
+    --crypto-xrp: 210 11% 15%;
+    --crypto-solana: 263 100% 63%;
+    --crypto-altcoin: 233 75% 66%;
+    --crypto-meme: 36 91% 51%;
     
     /* Decorative */
     --decorative-border: 40 60% 60%;

@@ -52,9 +52,19 @@ export const EconomicTrajectories = () => {
   const getRankChange = (country: CountryRanking, yearIndex: number) => {
     if (yearIndex === 0) return null;
     const currentRank = country.rankings[yearIndex];
-    const previousRank = country.rankings[yearIndex - 1];
     
-    if (currentRank === -1 || previousRank === -1) return null;
+    if (currentRank === -1) return null;
+    
+    // Find the previous year where this country appeared
+    let previousRank = -1;
+    for (let i = yearIndex - 1; i >= 0; i--) {
+      if (country.rankings[i] !== -1) {
+        previousRank = country.rankings[i];
+        break;
+      }
+    }
+    
+    if (previousRank === -1) return null;
     
     return previousRank - currentRank;
   };
@@ -106,7 +116,7 @@ export const EconomicTrajectories = () => {
             {/* SVG connections container - only show when hovering */}
             {hoveredCountry && (
               <svg
-                className="absolute top-16 left-0 w-full h-full pointer-events-none"
+                className="absolute top-0 left-0 w-full h-full pointer-events-none"
                 style={{ zIndex: 0 }}
               >
                 {countryData

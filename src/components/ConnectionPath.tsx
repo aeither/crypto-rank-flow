@@ -41,12 +41,12 @@ export const ConnectionPath = ({
   const fromRect = fromBar.getBoundingClientRect();
   const toRect = toBar.getBoundingClientRect();
   
-  // Get the SVG container position
-  const svgContainer = fromBar.closest('.relative');
-  if (!svgContainer) return null;
-  const containerRect = svgContainer.getBoundingClientRect();
+  // Get the parent container that has the flex layout
+  const parentContainer = fromBar.closest('.flex.justify-between');
+  if (!parentContainer) return null;
+  const containerRect = parentContainer.getBoundingClientRect();
 
-  // Calculate positions relative to the container
+  // Calculate positions relative to the parent container
   const x1 = fromRect.right - containerRect.left;
   const y1 = fromRect.top + fromRect.height / 2 - containerRect.top;
   const x2 = toRect.left - containerRect.left;

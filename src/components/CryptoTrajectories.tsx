@@ -15,136 +15,58 @@ export interface CryptoRanking {
 
 const weeks = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5"];
 
-const cryptoData: CryptoRanking[] = [
-  { 
-    id: "bitcoin", 
-    name: "Bitcoin", 
-    symbol: "BTC", 
-    image: "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
-    color: "bitcoin", 
-    rankings: [1, 1, 1, 1, 1] 
-  },
-  { 
-    id: "ethereum", 
-    name: "Ethereum", 
-    symbol: "ETH", 
-    image: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628",
-    color: "ethereum", 
-    rankings: [2, 2, 2, 2, 2] 
-  },
-  { 
-    id: "tether", 
-    name: "Tether", 
-    symbol: "USDT", 
-    image: "https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661",
-    color: "stablecoin", 
-    rankings: [3, 3, 3, 4, 5] 
-  },
-  { 
-    id: "binancecoin", 
-    name: "BNB", 
-    symbol: "BNB", 
-    image: "https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970",
-    color: "bnb", 
-    rankings: [4, 4, 4, 3, 3] 
-  },
-  { 
-    id: "ripple", 
-    name: "XRP", 
-    symbol: "XRP", 
-    image: "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442",
-    color: "xrp", 
-    rankings: [5, 5, 5, 5, 4] 
-  },
-  { 
-    id: "solana", 
-    name: "Solana", 
-    symbol: "SOL", 
-    image: "https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756",
-    color: "solana", 
-    rankings: [6, 6, 6, 6, 6] 
-  },
-  { 
-    id: "usd-coin", 
-    name: "USDC", 
-    symbol: "USDC", 
-    image: "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694",
-    color: "stablecoin", 
-    rankings: [7, 7, 7, 7, 7] 
-  },
-  { 
-    id: "staked-ether", 
-    name: "Lido Staked Ether", 
-    symbol: "STETH", 
-    image: "https://coin-images.coingecko.com/coins/images/13442/large/steth_logo.png?1696513206",
-    color: "ethereum", 
-    rankings: [8, 8, 9, 10, 10] 
-  },
-  { 
-    id: "tron", 
-    name: "TRON", 
-    symbol: "TRX", 
-    image: "https://coin-images.coingecko.com/coins/images/1094/large/tron-logo.png?1696502193",
-    color: "altcoin", 
-    rankings: [9, 9, 8, 8, 8] 
-  },
-  { 
-    id: "dogecoin", 
-    name: "Dogecoin", 
-    symbol: "DOGE", 
-    image: "https://coin-images.coingecko.com/coins/images/5/large/dogecoin.png?1696501409",
-    color: "meme", 
-    rankings: [10, 10, 10, 9, 9] 
-  },
-  { 
-    id: "cardano", 
-    name: "Cardano", 
-    symbol: "ADA", 
-    image: "https://coin-images.coingecko.com/coins/images/975/large/cardano.png?1696502090",
-    color: "altcoin", 
-    rankings: [11, 11, 11, 11, 12] 
-  },
-  { 
-    id: "avalanche", 
-    name: "Avalanche", 
-    symbol: "AVAX", 
-    image: "https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png?1696512369",
-    color: "altcoin", 
-    rankings: [12, 13, 14, -1, -1] 
-  },
-  { 
-    id: "shiba-inu", 
-    name: "Shiba Inu", 
-    symbol: "SHIB", 
-    image: "https://coin-images.coingecko.com/coins/images/11939/large/shiba.png?1696511800",
-    color: "meme", 
-    rankings: [13, 12, 12, 13, 14] 
-  },
-  { 
-    id: "polkadot", 
-    name: "Polkadot", 
-    symbol: "DOT", 
-    image: "https://coin-images.coingecko.com/coins/images/12171/large/polkadot.png?1696512008",
-    color: "altcoin", 
-    rankings: [14, 14, 13, 12, 11] 
-  },
-  { 
-    id: "chainlink", 
-    name: "Chainlink", 
-    symbol: "LINK", 
-    image: "https://coin-images.coingecko.com/coins/images/877/large/chainlink-new-logo.png?1696502009",
-    color: "altcoin", 
-    rankings: [15, 15, 15, 14, 13] 
-  },
-  { 
-    id: "polygon", 
-    name: "Polygon", 
-    symbol: "MATIC", 
-    image: "https://coin-images.coingecko.com/coins/images/4713/large/matic-token-icon.png?1696505277",
-    color: "altcoin", 
-    rankings: [-1, -1, -1, 15, 15] 
-  },
-];
+// Generate mock data for top 100 cryptocurrencies with realistic rank changes
+const generateCryptoData = (): CryptoRanking[] => {
+  const baseData = [
+    { id: "bitcoin", name: "Bitcoin", symbol: "BTC", image: "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400", color: "bitcoin" },
+    { id: "ethereum", name: "Ethereum", symbol: "ETH", image: "https://coin-images.coingecko.com/coins/images/279/large/ethereum.png?1696501628", color: "ethereum" },
+    { id: "tether", name: "Tether", symbol: "USDT", image: "https://coin-images.coingecko.com/coins/images/325/large/Tether.png?1696501661", color: "stablecoin" },
+    { id: "binancecoin", name: "BNB", symbol: "BNB", image: "https://coin-images.coingecko.com/coins/images/825/large/bnb-icon2_2x.png?1696501970", color: "bnb" },
+    { id: "ripple", name: "XRP", symbol: "XRP", image: "https://coin-images.coingecko.com/coins/images/44/large/xrp-symbol-white-128.png?1696501442", color: "xrp" },
+    { id: "solana", name: "Solana", symbol: "SOL", image: "https://coin-images.coingecko.com/coins/images/4128/large/solana.png?1718769756", color: "solana" },
+    { id: "usd-coin", name: "USDC", symbol: "USDC", image: "https://coin-images.coingecko.com/coins/images/6319/large/usdc.png?1696506694", color: "stablecoin" },
+    { id: "staked-ether", name: "Lido Staked Ether", symbol: "STETH", image: "https://coin-images.coingecko.com/coins/images/13442/large/steth_logo.png?1696513206", color: "ethereum" },
+    { id: "tron", name: "TRON", symbol: "TRX", image: "https://coin-images.coingecko.com/coins/images/1094/large/tron-logo.png?1696502193", color: "altcoin" },
+    { id: "dogecoin", name: "Dogecoin", symbol: "DOGE", image: "https://coin-images.coingecko.com/coins/images/5/large/dogecoin.png?1696501409", color: "meme" },
+    { id: "cardano", name: "Cardano", symbol: "ADA", image: "https://coin-images.coingecko.com/coins/images/975/large/cardano.png?1696502090", color: "altcoin" },
+    { id: "avalanche", name: "Avalanche", symbol: "AVAX", image: "https://coin-images.coingecko.com/coins/images/12559/large/Avalanche_Circle_RedWhite_Trans.png?1696512369", color: "altcoin" },
+    { id: "shiba-inu", name: "Shiba Inu", symbol: "SHIB", image: "https://coin-images.coingecko.com/coins/images/11939/large/shiba.png?1696511800", color: "meme" },
+    { id: "polkadot", name: "Polkadot", symbol: "DOT", image: "https://coin-images.coingecko.com/coins/images/12171/large/polkadot.png?1696512008", color: "altcoin" },
+    { id: "chainlink", name: "Chainlink", symbol: "LINK", image: "https://coin-images.coingecko.com/coins/images/877/large/chainlink-new-logo.png?1696502009", color: "altcoin" },
+  ];
+
+  // Generate remaining cryptos with generic data
+  for (let i = baseData.length + 1; i <= 100; i++) {
+    baseData.push({
+      id: `crypto-${i}`,
+      name: `Crypto ${i}`,
+      symbol: `CRY${i}`,
+      image: "https://coin-images.coingecko.com/coins/images/1/large/bitcoin.png?1696501400",
+      color: "altcoin"
+    });
+  }
+
+  // Generate rankings with some variation
+  return baseData.map((crypto, index) => {
+    const baseRank = index + 1;
+    const rankings = [];
+    
+    for (let week = 0; week < 5; week++) {
+      // Add some random variation (-3 to +3) but keep within bounds
+      const variation = Math.floor(Math.random() * 7) - 3;
+      let rank = baseRank + variation;
+      rank = Math.max(1, Math.min(100, rank)); // Keep between 1 and 100
+      rankings.push(rank);
+    }
+    
+    return {
+      ...crypto,
+      rankings
+    };
+  });
+};
+
+const cryptoData: CryptoRanking[] = generateCryptoData();
 
 export const CryptoTrajectories = () => {
   const [hoveredCrypto, setHoveredCrypto] = useState<string | null>(null);
@@ -159,20 +81,13 @@ export const CryptoTrajectories = () => {
   const getRankChange = (crypto: CryptoRanking, weekIndex: number) => {
     if (weekIndex === 0) return null;
     const currentRank = crypto.rankings[weekIndex];
+    const previousRank = crypto.rankings[weekIndex - 1];
     
-    if (currentRank === -1) return null;
+    if (currentRank === -1 || previousRank === -1) return null;
     
-    // Find the previous week where this crypto appeared
-    let previousRank = -1;
-    for (let i = weekIndex - 1; i >= 0; i--) {
-      if (crypto.rankings[i] !== -1) {
-        previousRank = crypto.rankings[i];
-        break;
-      }
-    }
-    
-    if (previousRank === -1) return null;
-    
+    // Lower rank number is better (rank 1 > rank 5)
+    // So if we go from 5 to 4, that's +1 (improvement)
+    // If we go from 4 to 5, that's -1 (decline)
     return previousRank - currentRank;
   };
 
@@ -193,7 +108,7 @@ export const CryptoTrajectories = () => {
               Crypto Market Trajectories:
             </h2>
             <h1 className="text-5xl md:text-6xl font-serif font-bold mb-6 leading-tight">
-              TOP 15 CRYPTOCURRENCIES
+              TOP 100 CRYPTOCURRENCIES
               <br />
               BY MARKET CAP
               <br />
@@ -220,38 +135,6 @@ export const CryptoTrajectories = () => {
               ))}
             </div>
 
-            {/* SVG connections container - only show when hovering */}
-            {hoveredCrypto && (
-              <svg
-                className="absolute top-0 left-0 w-full h-full pointer-events-none"
-                style={{ zIndex: 0 }}
-              >
-                {cryptoData
-                  .filter((crypto) => crypto.id === hoveredCrypto)
-                  .map((crypto) => {
-                    const paths = [];
-                    for (let i = 0; i < weeks.length - 1; i++) {
-                      if (
-                        crypto.rankings[i] !== -1 &&
-                        crypto.rankings[i + 1] !== -1
-                      ) {
-                        paths.push(
-                          <ConnectionPath
-                            key={`${crypto.id}-${i}`}
-                            crypto={crypto}
-                            fromWeekIndex={i}
-                            toWeekIndex={i + 1}
-                            isHovered={true}
-                            isDimmed={false}
-                            barRefs={barRefs}
-                          />
-                        );
-                      }
-                    }
-                    return paths;
-                  })}
-              </svg>
-            )}
 
             {/* Crypto bars */}
             <div className="flex justify-between relative" style={{ zIndex: 1 }}>

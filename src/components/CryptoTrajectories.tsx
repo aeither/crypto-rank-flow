@@ -139,46 +139,47 @@ export const CryptoTrajectories = () => {
             {/* Crypto bars */}
             <div className="flex justify-between relative" style={{ zIndex: 1 }}>
               {weeks.map((week, weekIndex) => (
-                <div key={week} className="flex flex-col gap-2 w-40">
+                <div key={week} className="flex flex-col gap-2">
                   {getCryptosAtWeek(weekIndex).map((crypto) => {
                     const currentRank = crypto.rankings[weekIndex];
                     const rankChange = getRankChange(crypto, weekIndex);
 
                     return (
-                      <div key={`${crypto.id}-${weekIndex}`} className="relative">
-                        {/* Rank circle - only show on first column */}
-                        {weekIndex === 0 && (
-                          <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-background border-2 border-foreground flex items-center justify-center">
-                            <span className="text-xs font-bold">{currentRank}</span>
-                          </div>
-                        )}
+                      <div key={`${crypto.id}-${weekIndex}`} className="flex items-center gap-2">
+                        {/* Rank circle or change indicator */}
+                        <div className="w-8 flex-shrink-0 flex items-center justify-center">
+                          {weekIndex === 0 ? (
+                            <div className="w-5 h-5 rounded-full bg-background border-2 border-foreground flex items-center justify-center">
+                              <span className="text-xs font-bold">{currentRank}</span>
+                            </div>
+                          ) : (
+                            <span className={cn(
+                              "text-xs font-bold",
+                              rankChange === null ? "text-muted-foreground" :
+                              rankChange > 0 ? "text-green-400" : 
+                              rankChange < 0 ? "text-red-400" : 
+                              "text-muted-foreground"
+                            )}>
+                              {rankChange === null ? "–" : rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
+                            </span>
+                          )}
+                        </div>
                         
-                        {/* Rank change indicator - show on all columns except first */}
-                        {weekIndex > 0 && (
-                          <div className={cn(
-                            "absolute -left-8 top-1/2 -translate-y-1/2 text-xs font-bold",
-                            rankChange === null ? "text-muted-foreground" :
-                            rankChange > 0 ? "text-green-400" : 
-                            rankChange < 0 ? "text-red-400" : 
-                            "text-muted-foreground"
-                          )}>
-                            {rankChange === null ? "–" : rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
-                          </div>
-                        )}
-                        
-                        <CryptoBar
-                          crypto={crypto}
-                          rank={currentRank}
-                          isHovered={hoveredCrypto === crypto.id}
-                          isDimmed={hoveredCrypto !== null && hoveredCrypto !== crypto.id}
-                          onHover={setHoveredCrypto}
-                          weekIndex={weekIndex}
-                          barRef={(el) => {
-                            if (el) {
-                              barRefs.set(`${crypto.id}-${weekIndex}`, el);
-                            }
-                          }}
-                        />
+                        <div className="w-40">
+                          <CryptoBar
+                            crypto={crypto}
+                            rank={currentRank}
+                            isHovered={hoveredCrypto === crypto.id}
+                            isDimmed={hoveredCrypto !== null && hoveredCrypto !== crypto.id}
+                            onHover={setHoveredCrypto}
+                            weekIndex={weekIndex}
+                            barRef={(el) => {
+                              if (el) {
+                                barRefs.set(`${crypto.id}-${weekIndex}`, el);
+                              }
+                            }}
+                          />
+                        </div>
                       </div>
                     );
                   })}

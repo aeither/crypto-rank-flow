@@ -57,6 +57,23 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        country: {
+          us: "hsl(var(--country-us))",
+          china: "hsl(var(--country-china))",
+          india: "hsl(var(--country-india))",
+          europe: "hsl(var(--country-europe))",
+          americas: "hsl(var(--country-americas))",
+          africa: "hsl(var(--country-africa))",
+          asia: "hsl(var(--country-asia))",
+        },
+        decorative: {
+          border: "hsl(var(--decorative-border))",
+          accent: "hsl(var(--decorative-accent))",
+        },
+      },
+      fontFamily: {
+        serif: ['Playfair Display', 'Georgia', 'serif'],
+        sans: ['Inter', 'system-ui', 'sans-serif'],
       },
       borderRadius: {
         lg: "var(--radius)",

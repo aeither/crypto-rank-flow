@@ -8,7 +8,7 @@ interface CountryBarProps {
   isDimmed: boolean;
   onHover: (country: string | null) => void;
   yearIndex: number;
-  previousRank?: number;
+  barRef: (el: HTMLDivElement | null) => void;
 }
 
 const colorMap = {
@@ -27,9 +27,12 @@ export const CountryBar = ({
   isHovered,
   isDimmed,
   onHover,
+  yearIndex,
+  barRef,
 }: CountryBarProps) => {
   return (
     <div
+      ref={barRef}
       className={cn(
         "relative rounded-lg px-3 py-2.5 cursor-pointer transition-all duration-300",
         colorMap[country.color as keyof typeof colorMap],

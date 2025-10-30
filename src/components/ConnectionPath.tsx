@@ -6,6 +6,7 @@ interface ConnectionPathProps {
   toYearIndex: number;
   isHovered: boolean;
   isDimmed: boolean;
+  barRefs: Map<string, HTMLDivElement>;
 }
 
 const colorMap = {
@@ -24,25 +25,32 @@ export const ConnectionPath = ({
   toYearIndex,
   isHovered,
   isDimmed,
+  barRefs,
 }: ConnectionPathProps) => {
-  // Calculate positions based on rankings
   const fromRank = country.rankings[fromYearIndex];
   const toRank = country.rankings[toYearIndex];
 
   if (fromRank === -1 || toRank === -1) return null;
 
-  // Approximate positions (these would need to be calculated based on actual DOM positions)
-  const columnWidth = 220; // approximate width between columns
-  const barHeight = 48; // approximate height of each bar
-  const barGap = 8; // gap between bars
+  // Get actual DOM positions
+  const fromBar = barRefs.get(`${country.country}-${fromYearIndex}`);
+  const toBar = barRefs.get(`${country.country}-${toYearIndex}`);
 
-  const x1 = fromYearIndex * columnWidth + 160; // start from right side of bar
-  const y1 = fromRank * (barHeight + barGap) - barGap + barHeight / 2;
-  const x2 = toYearIndex * columnWidth;
-  const y2 = toRank * (barHeight + barGap) - barGap + barHeight / 2;
+  if (!fromBar || !toBar) return null;
 
-  // Create straight line path
-  const path = `M ${x1} ${y1} L ${x2} ${y2}`;
+  const fromRect = fromBar.getBoundingClientRect();
+  const toRect = toBar.getBoundingClientRect();
+  
+  // Get the SVG container position
+  const svgContainer = fromBar.closest('.relative');
+  if (!svgContainer) return null;
+  const containerRect = svgContainer.getBoundingClientRect();
+
+  // Calculate positions relative to the container
+  const x1 = fromRect.right - containerRect.left;
+  const y1 = fromRect.top + fromRect.height / 2 - containerRect.top;
+  const x2 = toRect.left - containerRect.left;
+  const y2 = toRect.top + toRect.height / 2 - containerRect.top;
 
   const color = colorMap[country.color as keyof typeof colorMap];
 

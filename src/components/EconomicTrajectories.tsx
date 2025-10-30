@@ -41,11 +41,22 @@ const countryData: CountryRanking[] = [
 
 export const EconomicTrajectories = () => {
   const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
+  const barRefs = useState<Map<string, HTMLDivElement>>(new Map())[0];
 
   const getCountriesAtYear = (yearIndex: number) => {
     return countryData
       .filter((country) => country.rankings[yearIndex] !== -1)
       .sort((a, b) => a.rankings[yearIndex] - b.rankings[yearIndex]);
+  };
+
+  const getRankChange = (country: CountryRanking, yearIndex: number) => {
+    if (yearIndex === 0) return null;
+    const currentRank = country.rankings[yearIndex];
+    const previousRank = country.rankings[yearIndex - 1];
+    
+    if (currentRank === -1 || previousRank === -1) return null;
+    
+    return previousRank - currentRank;
   };
 
   return (
@@ -115,6 +126,7 @@ export const EconomicTrajectories = () => {
                             toYearIndex={i + 1}
                             isHovered={true}
                             isDimmed={false}
+                            barRefs={barRefs}
                           />
                         );
                       }
@@ -129,11 +141,8 @@ export const EconomicTrajectories = () => {
               {years.map((year, yearIndex) => (
                 <div key={year} className="flex flex-col gap-2 w-40">
                   {getCountriesAtYear(yearIndex).map((country) => {
-                    const previousRank = yearIndex > 0 ? country.rankings[yearIndex - 1] : undefined;
                     const currentRank = country.rankings[yearIndex];
-                    const rankChange = previousRank !== undefined && previousRank !== -1 
-                      ? previousRank - currentRank 
-                      : undefined;
+                    const rankChange = getRankChange(country, yearIndex);
 
                     return (
                       <div key={`${country.country}-${yearIndex}`} className="relative">
@@ -145,12 +154,15 @@ export const EconomicTrajectories = () => {
                         )}
                         
                         {/* Rank change indicator - show on all columns except first */}
-                        {yearIndex > 0 && rankChange !== undefined && (
+                        {yearIndex > 0 && (
                           <div className={cn(
                             "absolute -left-8 top-1/2 -translate-y-1/2 text-xs font-bold",
-                            rankChange > 0 ? "text-green-400" : rankChange < 0 ? "text-red-400" : "text-muted-foreground"
+                            rankChange === null ? "text-muted-foreground" :
+                            rankChange > 0 ? "text-green-400" : 
+                            rankChange < 0 ? "text-red-400" : 
+                            "text-muted-foreground"
                           )}>
-                            {rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
+                            {rankChange === null ? "–" : rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
                           </div>
                         )}
                         
@@ -161,7 +173,11 @@ export const EconomicTrajectories = () => {
                           isDimmed={hoveredCountry !== null && hoveredCountry !== country.country}
                           onHover={setHoveredCountry}
                           yearIndex={yearIndex}
-                          previousRank={previousRank}
+                          barRef={(el) => {
+                            if (el) {
+                              barRefs.set(`${country.country}-${yearIndex}`, el);
+                            }
+                          }}
                         />
                       </div>
                     );

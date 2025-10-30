@@ -2,6 +2,7 @@ import { useState } from "react";
 import { CountryBar } from "./CountryBar";
 import { ConnectionPath } from "./ConnectionPath";
 import { HighlightCard } from "./HighlightCard";
+import { cn } from "@/lib/utils";
 
 export interface CountryRanking {
   country: string;
@@ -91,47 +92,80 @@ export const EconomicTrajectories = () => {
               ))}
             </div>
 
-            {/* SVG connections container */}
-            <svg
-              className="absolute top-16 left-0 w-full h-full pointer-events-none"
-              style={{ zIndex: 0 }}
-            >
-              {countryData.map((country) => {
-                for (let i = 0; i < years.length - 1; i++) {
-                  if (
-                    country.rankings[i] !== -1 &&
-                    country.rankings[i + 1] !== -1
-                  ) {
-                    return (
-                      <ConnectionPath
-                        key={`${country.country}-${i}`}
-                        country={country}
-                        fromYearIndex={i}
-                        toYearIndex={i + 1}
-                        isHovered={hoveredCountry === country.country}
-                        isDimmed={hoveredCountry !== null && hoveredCountry !== country.country}
-                      />
-                    );
-                  }
-                }
-                return null;
-              })}
-            </svg>
+            {/* SVG connections container - only show when hovering */}
+            {hoveredCountry && (
+              <svg
+                className="absolute top-16 left-0 w-full h-full pointer-events-none"
+                style={{ zIndex: 0 }}
+              >
+                {countryData
+                  .filter((country) => country.country === hoveredCountry)
+                  .map((country) => {
+                    const paths = [];
+                    for (let i = 0; i < years.length - 1; i++) {
+                      if (
+                        country.rankings[i] !== -1 &&
+                        country.rankings[i + 1] !== -1
+                      ) {
+                        paths.push(
+                          <ConnectionPath
+                            key={`${country.country}-${i}`}
+                            country={country}
+                            fromYearIndex={i}
+                            toYearIndex={i + 1}
+                            isHovered={true}
+                            isDimmed={false}
+                          />
+                        );
+                      }
+                    }
+                    return paths;
+                  })}
+              </svg>
+            )}
 
             {/* Country bars */}
             <div className="flex justify-between relative" style={{ zIndex: 1 }}>
               {years.map((year, yearIndex) => (
                 <div key={year} className="flex flex-col gap-2 w-40">
-                  {getCountriesAtYear(yearIndex).map((country) => (
-                    <CountryBar
-                      key={`${country.country}-${yearIndex}`}
-                      country={country}
-                      rank={country.rankings[yearIndex]}
-                      isHovered={hoveredCountry === country.country}
-                      isDimmed={hoveredCountry !== null && hoveredCountry !== country.country}
-                      onHover={setHoveredCountry}
-                    />
-                  ))}
+                  {getCountriesAtYear(yearIndex).map((country) => {
+                    const previousRank = yearIndex > 0 ? country.rankings[yearIndex - 1] : undefined;
+                    const currentRank = country.rankings[yearIndex];
+                    const rankChange = previousRank !== undefined && previousRank !== -1 
+                      ? previousRank - currentRank 
+                      : undefined;
+
+                    return (
+                      <div key={`${country.country}-${yearIndex}`} className="relative">
+                        {/* Rank circle - only show on first column */}
+                        {yearIndex === 0 && (
+                          <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-background border-2 border-foreground flex items-center justify-center">
+                            <span className="text-xs font-bold">{currentRank}</span>
+                          </div>
+                        )}
+                        
+                        {/* Rank change indicator - show on all columns except first */}
+                        {yearIndex > 0 && rankChange !== undefined && (
+                          <div className={cn(
+                            "absolute -left-8 top-1/2 -translate-y-1/2 text-xs font-bold",
+                            rankChange > 0 ? "text-green-400" : rankChange < 0 ? "text-red-400" : "text-muted-foreground"
+                          )}>
+                            {rankChange > 0 ? `+${rankChange}` : rankChange < 0 ? rankChange : "–"}
+                          </div>
+                        )}
+                        
+                        <CountryBar
+                          country={country}
+                          rank={currentRank}
+                          isHovered={hoveredCountry === country.country}
+                          isDimmed={hoveredCountry !== null && hoveredCountry !== country.country}
+                          onHover={setHoveredCountry}
+                          yearIndex={yearIndex}
+                          previousRank={previousRank}
+                        />
+                      </div>
+                    );
+                  })}
                 </div>
               ))}
             </div>

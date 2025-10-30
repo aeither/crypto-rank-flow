@@ -41,21 +41,21 @@ export const ConnectionPath = ({
   const x2 = toYearIndex * columnWidth;
   const y2 = toRank * (barHeight + barGap) - barGap + barHeight / 2;
 
-  const midX = (x1 + x2) / 2;
-
-  // Create curved path
-  const path = `M ${x1} ${y1} C ${midX} ${y1}, ${midX} ${y2}, ${x2} ${y2}`;
+  // Create straight line path
+  const path = `M ${x1} ${y1} L ${x2} ${y2}`;
 
   const color = colorMap[country.color as keyof typeof colorMap];
 
   return (
-    <path
-      d={path}
+    <line
+      x1={x1}
+      y1={y1}
+      x2={x2}
+      y2={y2}
       stroke={color}
-      strokeWidth={isHovered ? 4 : 2}
-      fill="none"
-      opacity={isDimmed ? 0.1 : isHovered ? 1 : 0.3}
-      className="transition-all duration-300"
+      strokeWidth={6}
+      opacity={1}
+      className="transition-all duration-200"
       style={{ strokeLinecap: "round" }}
     />
   );

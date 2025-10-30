@@ -7,6 +7,8 @@ interface CountryBarProps {
   isHovered: boolean;
   isDimmed: boolean;
   onHover: (country: string | null) => void;
+  yearIndex: number;
+  previousRank?: number;
 }
 
 const colorMap = {
@@ -43,9 +45,6 @@ export const CountryBar = ({
         <span className="text-sm font-semibold text-white">
           {country.country}
         </span>
-      </div>
-      <div className="absolute -left-6 top-1/2 -translate-y-1/2 w-5 h-5 rounded-full bg-background border-2 border-foreground flex items-center justify-center">
-        <span className="text-xs font-bold">{rank}</span>
       </div>
     </div>
   );
